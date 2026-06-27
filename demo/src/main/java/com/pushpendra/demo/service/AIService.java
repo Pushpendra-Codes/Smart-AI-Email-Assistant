@@ -28,8 +28,8 @@ public class AIService {
 
     private final RestClient restClient = RestClient.create();
 
-    public String getReply(String emailText) {
-        String prompt = "Generate an email reply. STRICT RULES:  Return only the email body content. No greeting. No closing. No signature Email:\n" + emailText;
+    public String getReply(String emailText, String tone) {
+        String prompt = "Generate an email reply in given tone. STRICT RULES:  Return only the email body content. No greeting. No closing. No signature Email:\n" + emailText +"Tone:"+ tone;
 
 
         Part part = new Part();
@@ -45,14 +45,14 @@ public class AIService {
         GeminiRequest request = new GeminiRequest();
         request.setContents(contents);
 
-        String response = restClient.post().uri(apiUrl).header("x-goog-api-key",apiKey).header("Content-Type", "application/json").body(request).retrieve().body(String.class);
+         emailText= restClient.post().uri(apiUrl).header("x-goog-api-key",apiKey).header("Content-Type", "application/json").body(request).retrieve().body(String.class);
 
 
         ObjectMapper mapper = new ObjectMapper();
-        JsonNode root = mapper.readTree(response);
+        JsonNode root = mapper.readTree(emailText);
 
 
-        emailText = root
+        String response = root
                 .path("candidates")
                 .get(0)
                 .path("content")
@@ -61,6 +61,6 @@ public class AIService {
                 .path("text")
                 .asText();
 
-        return emailText;
+        return response;
     }
 }

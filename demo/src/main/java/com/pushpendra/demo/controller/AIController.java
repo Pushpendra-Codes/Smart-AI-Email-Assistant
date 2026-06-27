@@ -16,8 +16,8 @@ public class AIController{
 
 
     @PostMapping("/generate-reply")
-    public String getReply(@RequestBody EmailRequest request){
-        return service.getReply(request.getEmailText());
+    public String getReply(@RequestBody EmailRequest request,EmailRequest tone){
+        return service.getReply(request.getEmailText(),tone.getTone());
     }
 }
 

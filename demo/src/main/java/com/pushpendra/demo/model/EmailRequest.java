@@ -3,7 +3,7 @@ package com.pushpendra.demo.model;
 import org.springframework.stereotype.Component;
 
 @Component
-public class EmailRequest {
+public class  EmailRequest {
 
     private String emailText;
     private String senderName;
